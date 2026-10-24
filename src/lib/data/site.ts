@@ -1,6 +1,9 @@
 export const registrationUrl =
 	'https://docs.google.com/forms/d/e/1FAIpQLSfka7pzpEoN9E6muGtRFjmdB6xK48uEpczj6hvJoLDozqRH4A/viewform';
 
+// Google Analytics 4 の測定ID（例: 'G-XXXXXXXXXX'）。空欄の間は読み込まない
+export const gaMeasurementId = 'G-JGJQ2QH7JC';
+
 export const event = {
 	title: 'AIって、どんなことができるの？',
 	date: '2026年11月8日（日）',
