@@ -17,7 +17,9 @@
 	},
 	"upload_source_maps": true,
 	// akitaka-note.jp のDNSをCloudflareで管理していることが前提。デプロイ時にDNSレコードと証明書が自動作成される
-	"routes": [{ "pattern": "ailab.akitaka-note.jp", "custom_domain": true }]
+	"routes": [{ "pattern": "ailab.akitaka-note.jp", "custom_domain": true }],
+	// main以外のブランチは Workers Builds が `wrangler preview` でプレビュー公開する。その実行に必要
+	"previews": {}
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
