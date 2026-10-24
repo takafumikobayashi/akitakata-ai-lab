@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice">
+	<defs>
+		<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="#cfe6f3" />
+			<stop offset="0.55" stop-color="#e9f2f2" />
+			<stop offset="1" stop-color="#f4f1e4" />
+		</linearGradient>
+		<linearGradient id="far" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="#a9c6d6" />
+			<stop offset="1" stop-color="#c8dbe1" />
+		</linearGradient>
+		<linearGradient id="mid" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="#6f9fb4" />
+			<stop offset="1" stop-color="#8db4bf" />
+		</linearGradient>
+		<linearGradient id="near" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="#3f8a67" />
+			<stop offset="1" stop-color="#2f6f52" />
+		</linearGradient>
+		<linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" stop-color="#7fb267" />
+			<stop offset="1" stop-color="#5d9a52" />
+		</linearGradient>
+		<pattern id="paddy" width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(-14)">
+			<path d="M0 17h34" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1.2" />
+		</pattern>
+	</defs>
+
+	<rect width="1600" height="700" fill="url(#sky)" />
+
+	<!-- 太陽 -->
+	<circle cx="1210" cy="190" r="96" fill="#f6d235" />
+	<circle cx="1210" cy="190" r="132" fill="none" stroke="#f6d235" stroke-opacity="0.35" stroke-width="1.5" />
+	<circle cx="1210" cy="190" r="176" fill="none" stroke="#f6d235" stroke-opacity="0.18" stroke-width="1.5" />
+
+	<!-- 遠景の山 -->
+	<path
+		d="M0 360C120 300 200 280 300 300C420 322 470 228 600 238C720 248 780 322 900 302C1020 282 1080 198 1220 210C1340 220 1420 292 1600 268V700H0Z"
+		fill="url(#far)"
+	/>
+	<!-- 中景の山 -->
+	<path
+		d="M0 432C140 382 260 342 380 372C500 402 560 330 700 340C840 350 900 422 1040 402C1180 382 1260 318 1400 340C1500 356 1560 392 1600 382V700H0Z"
+		fill="url(#mid)"
+	/>
+	<g fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.2">
+		<path d="M0 462C140 412 260 372 380 402C500 432 560 360 700 370C840 380 900 452 1040 432C1180 412 1260 348 1400 370C1500 386 1560 422 1600 412" />
+		<path d="M0 492C140 442 260 402 380 432C500 462 560 390 700 400C840 410 900 482 1040 462C1180 442 1260 378 1400 400C1500 416 1560 452 1600 442" />
+	</g>
+	<!-- 近景の山 -->
+	<path
+		d="M0 522C180 472 320 452 480 482C640 512 760 442 920 462C1080 482 1180 532 1340 502C1460 480 1540 472 1600 480V700H0Z"
+		fill="url(#near)"
+	/>
+	<!-- 田畑 -->
+	<path d="M0 604C240 574 520 562 800 588C1080 614 1340 578 1600 572V700H0Z" fill="url(#field)" />
+	<path d="M0 604C240 574 520 562 800 588C1080 614 1340 578 1600 572V700H0Z" fill="url(#paddy)" />
+
+	<!-- 家並み -->
+	<g fill="#f7f3e6">
+		<rect x="586" y="566" width="34" height="22" />
+		<rect x="628" y="560" width="42" height="28" />
+		<rect x="680" y="570" width="28" height="18" />
+		<rect x="1012" y="586" width="36" height="22" />
+		<rect x="1056" y="580" width="44" height="28" />
+	</g>
+	<g fill="#c9573f">
+		<path d="M582 568l21-16 21 16Z" />
+		<path d="M624 562l25-18 25 18Z" />
+		<path d="M676 572l18-13 18 13Z" />
+		<path d="M1008 588l22-16 22 16Z" />
+		<path d="M1052 582l26-18 26 18Z" />
+	</g>
+
+	<!-- 地域をつなぐネットワーク -->
+	<g stroke="#ffffff" stroke-opacity="0.75" stroke-width="1.5" fill="none">
+		<path d="M220 468L470 446L700 404L930 430L1160 460L1390 432" />
+		<path d="M470 446L930 430" stroke-dasharray="4 6" />
+		<path d="M700 404L1160 460" stroke-dasharray="4 6" />
+		<path d="M930 430L1210 190" stroke-opacity="0.35" stroke-dasharray="2 8" />
+	</g>
+	<g fill="#ffffff">
+		<circle cx="220" cy="468" r="7" />
+		<circle cx="470" cy="446" r="7" />
+		<circle cx="700" cy="404" r="9" />
+		<circle cx="930" cy="430" r="7" />
+		<circle cx="1160" cy="460" r="7" />
+		<circle cx="1390" cy="432" r="7" />
+	</g>
+	<g fill="#f6d235">
+		<circle cx="220" cy="468" r="3" />
+		<circle cx="470" cy="446" r="3" />
+		<circle cx="700" cy="404" r="4" />
+		<circle cx="930" cy="430" r="3" />
+		<circle cx="1160" cy="460" r="3" />
+		<circle cx="1390" cy="432" r="3" />
+	</g>
+</svg>
