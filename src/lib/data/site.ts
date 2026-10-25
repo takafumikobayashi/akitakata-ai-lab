@@ -127,6 +127,14 @@ export const relatedLinks = [
 		description: '一緒に創る、明日のためのcode。',
 		url: 'https://tariki-code.tokyo/',
 		image: '/images/links/tariki-code.webp'
+	},
+	{
+		label: '主催者のプロジェクト',
+		title: 'AI業務レシピ β',
+		description:
+			'AIに詳しくなくても、プロンプトをコピーして資料を貼るだけ。普段の仕事を短時間で終わらせるための手順集。',
+		url: 'https://ai-work-recipes.tariki-code.tokyo/',
+		image: '/images/links/ai-work-recipes.webp'
 	}
 ];
 
