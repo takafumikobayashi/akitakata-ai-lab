@@ -135,6 +135,14 @@ export const relatedLinks = [
 			'AIに詳しくなくても、プロンプトをコピーして資料を貼るだけ。普段の仕事を短時間で終わらせるための手順集。',
 		url: 'https://ai-work-recipes.tariki-code.tokyo/',
 		image: '/images/links/ai-work-recipes.webp'
+	},
+	{
+		label: '主催者のプロジェクト',
+		title: 'Signals Japan Insight',
+		description:
+			'OpenAI Signals の公開データをもとに、日本の ChatGPT の仕事利用を読み解く非公式ダッシュボード。',
+		url: 'https://signals.tariki-code.tokyo/',
+		image: '/images/links/signals-japan-insight.webp'
 	}
 ];
 
