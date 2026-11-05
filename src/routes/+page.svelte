@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 	import SiteHeader from '#lib/components/SiteHeader.svelte';
-	import BrandMark from '#lib/components/BrandMark.svelte';
+	import SiteFooter from '#lib/components/SiteFooter.svelte';
 	import SlideViewer from '#lib/components/SlideViewer.svelte';
 	import SocialLinks from '#lib/components/SocialLinks.svelte';
 	import {
 		decks,
+		discord,
 		event,
 		ideas,
 		organizerHistory,
@@ -15,6 +17,7 @@
 		values
 	} from '#lib/data/site.js';
 	import { initReveal } from '#lib/reveal.js';
+	import { socialIcons } from '#lib/data/social-icons.js';
 
 	let deckId = $state(decks[0].id);
 	const deck = $derived(decks.find((d) => d.id === deckId) ?? decks[0]);
@@ -186,6 +189,13 @@
 							{/each}
 						</ul>
 					</div>
+					<a
+						class="line-link line-link-light event-day-link"
+						href={resolve('/day/[no]', { no: '01' })}
+						data-reveal="260"
+					>
+						当日のタイムテーブルを見る <span aria-hidden="true">→</span>
+					</a>
 				</div>
 
 				<div class="event-side" data-reveal="140">
@@ -412,6 +422,60 @@
 		</div>
 	</section>
 
+	<!-- Community -->
+	<section id="community" class="section section-tint" aria-labelledby="community-title">
+		<div class="container">
+			<div class="sec-head" data-reveal>
+				<p class="sec-label">COMMUNITY<span>Discordコミュニティ</span></p>
+			</div>
+			<div class="community-grid">
+				<div class="community-main">
+					<div class="community-icon" data-reveal aria-hidden="true">
+						<svg viewBox={socialIcons.Discord.viewBox}>
+							{#each socialIcons.Discord.paths as d (d)}
+								<path {d} />
+							{/each}
+						</svg>
+					</div>
+					<h2 id="community-title" class="display" data-reveal="80">
+						Labの日も、<wbr />そうでない日も。
+					</h2>
+					<p class="sec-aside" data-reveal="140">
+						メンバーがふだんから気軽にやりとりできるよう、Discordのサーバーを用意しました。イベントのあいだの「やってみた」も、ここで共有しましょう。
+					</p>
+					<div class="community-actions" data-reveal="200">
+						<a
+							class="button button-discord"
+							href={discord.url}
+							target="_blank"
+							rel="external noopener noreferrer"
+						>
+							Discordに参加を申請する <span aria-hidden="true">↗</span>
+						</a>
+						<p class="notice notice-quiet">
+							<span aria-hidden="true">i</span>
+							<span
+								><strong>参加は申請制です。</strong
+								>リンクから申請していただき、主催者が確認したうえで参加できるようになります。参加は希望者のみ・無料で、Discordのアカウントが必要です。</span
+							>
+						</p>
+					</div>
+				</div>
+				<ol class="community-uses">
+					{#each discord.uses as use, i (use.title)}
+						<li data-reveal={i * 80}>
+							<span class="community-num">{String(i + 1).padStart(2, '0')}</span>
+							<div>
+								<h3>{use.title}</h3>
+								<p>{use.body}</p>
+							</div>
+						</li>
+					{/each}
+				</ol>
+			</div>
+		</div>
+	</section>
+
 	<!-- Archive -->
 	<section class="section section-compact" aria-label="活動の記録とナレッジ">
 		<div class="container">
@@ -471,23 +535,4 @@
 	</section>
 </main>
 
-<footer class="site-footer">
-	<div class="footer-inner container">
-		<a class="brand" href="#top" aria-label="ページの先頭へ">
-			<BrandMark />
-			<span class="brand-name"><span>あきたかた</span><strong><em>AI</em> Lab</strong></span>
-		</a>
-		<p>地域でAIを「知る・触る・つくる」コミュニティ</p>
-		<SocialLinks class="footer-links" />
-		<a
-			class="line-link line-link-light"
-			href={registrationUrl}
-			target="_blank"
-			rel="external noopener noreferrer">参加フォーム <span aria-hidden="true">↗</span></a
-		>
-		<div class="footer-bottom">
-			<small>個人主催・非営利の地域コミュニティ ｜ 安芸高田市の公式事業ではありません</small>
-			<small>Copyright © tariki-code All rights reserved.</small>
-		</div>
-	</div>
-</footer>
+<SiteFooter />

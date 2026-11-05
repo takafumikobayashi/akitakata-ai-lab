@@ -1,3 +1,6 @@
+// 公開サイトのオリジン。当日ページのQRコードでUTMを付けるかどうかの判定に使う
+export const siteOrigin = 'https://ailab.akitaka-note.jp';
+
 export const registrationUrl =
 	'https://docs.google.com/forms/d/e/1FAIpQLSfka7pzpEoN9E6muGtRFjmdB6xK48uEpczj6hvJoLDozqRH4A/viewform';
 
@@ -112,6 +115,29 @@ export const values = [
 ];
 
 // 主催者のSNS。url が空のものはページに表示しない
+// コミュニティのDiscordサーバー（申請制）
+export const discord = {
+	url: 'https://discord.gg/Ep2z8kcucX',
+	uses: [
+		{
+			title: '情報交換',
+			body: '気になったAIのツールやニュース、使い方のコツを気軽に共有します。'
+		},
+		{
+			title: '「やってみた」の共有',
+			body: '試したこと、できたもの、うまくいかなかったことも、見せ合える場所です。'
+		},
+		{
+			title: '質問・相談',
+			body: '「これってAIでできる？」「ここで詰まった」を、みんなで考えます。'
+		},
+		{
+			title: '次のLabのお知らせ',
+			body: '開催のご案内や、次にやってみたいテーマの相談をします。'
+		}
+	]
+};
+
 export const organizerLinks = [
 	{ label: 'X', url: 'https://x.com/kobatch_tk' },
 	{ label: 'LinkedIn', url: 'https://www.linkedin.com/in/tariki-code/' },

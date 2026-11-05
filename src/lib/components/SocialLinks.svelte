@@ -1,21 +1,33 @@
 <script lang="ts">
-	import { organizerLinks } from '#lib/data/site.js';
+	import { discord, organizerLinks } from '#lib/data/site.js';
 	import { socialIcons } from '#lib/data/social-icons.js';
 
-	let { class: className = '' }: { class?: string } = $props();
+	// community: Labの Discord（申請制）も並べる。主催者個人のSNSではないため rel="me" は付けない
+	let { class: className = '', community = false }: { class?: string; community?: boolean } =
+		$props();
+
+	const links = $derived([
+		...organizerLinks.map((link) => ({ ...link, name: link.label, rel: 'me' })),
+		...(community
+			? [{ label: 'Discord', name: 'Discordコミュニティ（申請制）', url: discord.url, rel: '' }]
+			: [])
+	]);
 </script>
 
-{#if organizerLinks.length}
-	<ul class={['social-links', className]} aria-label="小林崇文のSNS">
-		{#each organizerLinks as link (link.label)}
+{#if links.length}
+	<ul
+		class={['social-links', className]}
+		aria-label={community ? '小林崇文のSNSとLabのDiscord' : '小林崇文のSNS'}
+	>
+		{#each links as link (link.label)}
 			{@const icon = socialIcons[link.label]}
 			<li>
 				<a
 					href={link.url}
 					target="_blank"
-					rel="external noopener noreferrer me"
-					aria-label={`${link.label}（新しいタブで開きます）`}
-					title={link.label}
+					rel="external noopener noreferrer {link.rel}"
+					aria-label={`${link.name}（新しいタブで開きます）`}
+					title={link.name}
 				>
 					<svg
 						viewBox={icon.viewBox}

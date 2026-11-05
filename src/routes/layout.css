@@ -1476,6 +1476,398 @@ p {
 	letter-spacing: 0.02em;
 }
 
+/* ---------- Community (Discord) ---------- */
+.community-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: clamp(2.5rem, 7vw, 8rem);
+	align-items: start;
+}
+.community-icon {
+	display: grid;
+	width: 64px;
+	height: 64px;
+	margin-bottom: 1.75rem;
+	place-items: center;
+	border-radius: 16px;
+	background: #5865f2;
+}
+.community-icon svg {
+	width: 36px;
+	height: 36px;
+	fill: #fff;
+}
+.community-main .sec-aside {
+	margin-top: 1.5rem;
+}
+.community-actions {
+	margin-top: 2.25rem;
+}
+.community-actions .notice {
+	max-width: 34rem;
+	margin-top: 1.5rem;
+}
+.button-discord {
+	background: #5865f2;
+	color: #fff;
+}
+.button-discord:hover {
+	background: var(--ink);
+}
+.community-uses {
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid var(--line);
+	list-style: none;
+}
+.community-uses li {
+	display: grid;
+	grid-template-columns: 3rem 1fr;
+	gap: 1rem;
+	padding: 1.5rem 0;
+	border-bottom: 1px solid var(--line);
+}
+.community-num {
+	color: #5865f2;
+	font-family: var(--font-display);
+	font-size: 1.1rem;
+	font-weight: 800;
+	line-height: 1.6;
+}
+.community-uses h3 {
+	margin: 0 0 0.3rem;
+	font-size: 1.15rem;
+	font-weight: 700;
+	line-height: 1.5;
+}
+.community-uses p {
+	margin: 0;
+	color: var(--ink-2);
+	font-size: 0.98rem;
+	line-height: 1.8;
+}
+@media (max-width: 900px) {
+	.community-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* ---------- Event → day page link ---------- */
+.event-day-link {
+	margin-top: 2rem;
+}
+
+/* ---------- Day page (/day/01) ---------- */
+.day-hero {
+	padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem);
+	border-bottom: 1px solid var(--line);
+}
+.day-hero .sec-label {
+	margin-bottom: clamp(1.75rem, 4vw, 3rem);
+	padding-top: 1.1rem;
+	border-top: 1px solid var(--line);
+}
+.day-tag {
+	color: var(--ink-2);
+}
+.day-hero .display {
+	font-size: clamp(1.9rem, 4.4vw, 3.5rem);
+}
+.day-facts {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+	gap: 1.25rem 2rem;
+	margin: clamp(2rem, 4vw, 3rem) 0 0;
+}
+.day-facts div {
+	padding-top: 0.75rem;
+	border-top: 2px solid var(--ink);
+}
+.day-facts dt {
+	color: var(--muted);
+	font-size: 0.8rem;
+	font-weight: 500;
+	letter-spacing: 0.06em;
+}
+.day-facts dd {
+	margin: 0.2rem 0 0;
+	font-size: 1.05rem;
+	font-weight: 700;
+	line-height: 1.6;
+}
+.day-layout {
+	display: grid;
+	grid-template-columns: minmax(14rem, 19rem) minmax(0, 46rem);
+	gap: clamp(2.5rem, 6vw, 6rem);
+	padding-block: clamp(2.5rem, 6vw, 5rem) clamp(4rem, 8vw, 7rem);
+}
+
+/* リンクとQRコード */
+.day-links {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+	gap: 1rem;
+	margin: clamp(2rem, 4vw, 3rem) 0 0;
+	padding: 0;
+	list-style: none;
+}
+.day-link {
+	scroll-margin-top: 5.5rem;
+	display: grid;
+	grid-template-columns: 9.5rem minmax(0, 1fr);
+	gap: 1.25rem;
+	align-items: center;
+	padding: 1.1rem;
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	background: var(--surface);
+}
+.day-link-qr svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	shape-rendering: crispEdges;
+}
+.day-link-label {
+	margin: 0;
+	color: var(--blue);
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+}
+.day-link h2 {
+	margin: 0.1rem 0 0.4rem;
+	font-size: 1.2rem;
+	font-weight: 700;
+	line-height: 1.45;
+}
+.day-link-desc {
+	margin: 0 0 0.9rem;
+	color: var(--ink-2);
+	font-size: 0.9rem;
+	line-height: 1.7;
+}
+.day-link-url {
+	margin: 0.5rem 0 0;
+	color: var(--muted);
+	font-family: var(--font-display);
+	font-size: 0.8rem;
+	overflow-wrap: anywhere;
+}
+@media (max-width: 480px) {
+	.day-link {
+		grid-template-columns: 7.5rem minmax(0, 1fr);
+		gap: 1rem;
+	}
+}
+
+/* 目次（タイムテーブル） */
+.day-toc {
+	position: sticky;
+	top: 5.5rem;
+	align-self: start;
+}
+.day-toc-title {
+	margin: 0 0 0.75rem;
+	font-size: 0.85rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+}
+.day-toc ol {
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid var(--line);
+	list-style: none;
+}
+.day-toc li {
+	border-bottom: 1px solid var(--line);
+}
+.day-toc a {
+	display: grid;
+	grid-template-columns: 3.4rem 1fr;
+	align-items: baseline;
+	gap: 0 0.75rem;
+	padding: 0.7rem 0.25rem;
+	font-size: 0.92rem;
+	line-height: 1.5;
+	text-decoration: none;
+	transition: background 0.2s ease;
+}
+.day-toc a:hover {
+	background: var(--bg-tint);
+}
+.toc-time {
+	color: var(--blue);
+	font-family: var(--font-display);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
+.day-toc .is-now a {
+	background: color-mix(in srgb, var(--yellow) 35%, transparent);
+	font-weight: 700;
+}
+.now-badge {
+	grid-column: 2;
+	justify-self: start;
+	margin-top: 0.3rem;
+	padding: 0.05rem 0.55rem;
+	border-radius: 999px;
+	background: var(--ink);
+	color: #fff;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+}
+
+/* 本文（Markdown） */
+.day-body {
+	color: var(--ink-2);
+	font-size: 1.0625rem;
+	line-height: 1.95;
+}
+.day-body > :first-child {
+	margin-top: 0;
+}
+.day-body h2 {
+	margin: 3.5rem 0 1rem;
+	color: var(--ink);
+	font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+	font-weight: 700;
+	line-height: 1.45;
+}
+.day-body h3 {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin: 2rem 0 0.5rem;
+	color: var(--ink);
+	font-size: 1rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+}
+.day-body h3::before {
+	width: 7px;
+	height: 7px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: var(--blue-bright);
+	content: '';
+}
+.day-body p {
+	margin: 0 0 1rem;
+}
+.day-body strong {
+	color: var(--ink);
+	background: linear-gradient(
+		transparent 62%,
+		color-mix(in srgb, var(--yellow) 70%, transparent) 62%
+	);
+}
+.day-body ul,
+.day-body ol {
+	margin: 0 0 1.25rem;
+	padding-left: 1.4em;
+}
+.day-body ul {
+	list-style: disc;
+}
+.day-body ol {
+	list-style: decimal;
+}
+.day-body li > ul {
+	margin: 0.2rem 0 0;
+	list-style: circle;
+}
+.day-body li {
+	margin: 0.2rem 0;
+}
+.day-body li::marker {
+	color: var(--blue);
+	font-family: var(--font-display);
+	font-weight: 700;
+}
+.day-body blockquote {
+	margin: 1.25rem 0;
+	padding: 0.9rem 1.2rem;
+	border-left: 3px solid var(--yellow);
+	background: var(--surface);
+	color: var(--ink);
+	font-weight: 500;
+}
+.day-body blockquote p {
+	margin: 0;
+}
+.day-body a {
+	color: var(--blue);
+	text-underline-offset: 0.2em;
+	overflow-wrap: anywhere;
+}
+.day-body hr {
+	margin: 3rem 0;
+	border: 0;
+	border-top: 1px solid var(--line);
+}
+
+/* 時間枠（rehypeTimetable が <section class="slot"> にまとめる） */
+.day-body .slot {
+	position: relative;
+	margin-top: 1.5rem;
+	padding: 1.75rem 0 0.75rem;
+	border-top: 2px solid var(--ink);
+	scroll-margin-top: 5.5rem;
+}
+.day-body .slot + .slot {
+	margin-top: 2.5rem;
+}
+.day-body .slot-heading {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+	margin: 0 0 1.25rem;
+}
+.slot-time {
+	display: flex;
+	align-items: baseline;
+	gap: 0.4rem;
+	color: var(--blue);
+	font-family: var(--font-display);
+	font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.01em;
+}
+.slot-sep {
+	color: var(--muted);
+	font-weight: 500;
+}
+.day-body .slot.is-now {
+	margin-inline: -1.25rem;
+	padding-inline: 1.25rem;
+	border-top-color: var(--yellow);
+	background: color-mix(in srgb, var(--yellow) 12%, transparent);
+}
+.day-body .slot.is-now .slot-time::after {
+	margin-left: 0.5rem;
+	padding: 0.05rem 0.6rem;
+	border-radius: 999px;
+	background: var(--ink);
+	color: #fff;
+	content: 'いまここ';
+	font-family: 'Noto Sans JP', sans-serif;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+}
+
+@media (max-width: 900px) {
+	.day-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.day-toc {
+		position: static;
+	}
+}
+
 /* ---------- Responsive ---------- */
 .pc-only {
 	display: initial;

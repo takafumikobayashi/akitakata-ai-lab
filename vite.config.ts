@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import adapter from '@sveltejs/adapter-cloudflare';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import { rehypeTimetable } from './src/lib/markdown/timetable.js';
 
 export default defineConfig({
 	plugins: [
@@ -18,7 +19,7 @@ export default defineConfig({
 			// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
 			// See https://svelte.dev/docs/kit/adapters for more information about adapters.
 			adapter: adapter(),
-			preprocess: [mdsvex({ extensions: ['.svx', '.md'] })],
+			preprocess: [mdsvex({ extensions: ['.svx', '.md'], rehypePlugins: [rehypeTimetable] })],
 			extensions: ['.svelte', '.svx', '.md']
 		})
 	]
