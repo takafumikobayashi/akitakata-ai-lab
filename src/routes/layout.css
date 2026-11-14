@@ -1557,6 +1557,100 @@ p {
 	margin-top: 2rem;
 }
 
+/* 記事があるときの一覧 */
+.archive-list {
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid var(--line);
+	list-style: none;
+}
+.archive-list li {
+	border-bottom: 1px solid var(--line);
+}
+.archive-list a {
+	display: grid;
+	gap: 0.2rem;
+	padding: 0.9rem 0.25rem;
+	text-decoration: none;
+	transition: background 0.2s ease;
+}
+.archive-list a:hover {
+	background: var(--bg-tint);
+}
+.archive-list time {
+	color: var(--muted);
+	font-size: 0.85rem;
+}
+.archive-list span {
+	font-weight: 700;
+	line-height: 1.6;
+}
+
+/* ---------- Event: planning / closed ---------- */
+.event-note {
+	max-width: 32rem;
+	margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+	color: #c9ced6;
+	font-size: 1.0625rem;
+	line-height: 1.9;
+}
+.event-cta {
+	margin-top: clamp(2rem, 4vw, 3rem);
+}
+.event-side-title {
+	margin: 0 0 1rem;
+	color: #a9afb9;
+	font-size: 0.9rem;
+	font-weight: 400;
+}
+.event-details .event-past-link a {
+	margin-left: 0;
+}
+.event-closed {
+	margin: 0;
+	color: #c9ced6;
+	font-weight: 700;
+}
+
+/* ---------- Lab Log page (/log/<slug>) ---------- */
+.log-container {
+	max-width: 52rem;
+}
+.log-title {
+	font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+	letter-spacing: 0.04em;
+	line-height: 1.5;
+}
+.log-summary {
+	margin: 1.25rem 0 0;
+	color: var(--ink-2);
+	font-size: 1.0625rem;
+	line-height: 1.9;
+}
+.log-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin: 1.5rem 0 0;
+	padding: 0;
+	list-style: none;
+}
+.log-tags li {
+	padding: 0.15rem 0.7rem;
+	border: 1px solid var(--line);
+	border-radius: 999px;
+	color: var(--ink-2);
+	font-size: 0.8rem;
+}
+.log-body {
+	padding-block: clamp(2.5rem, 5vw, 4rem) 0;
+}
+.log-back {
+	margin: clamp(3rem, 6vw, 4.5rem) 0 clamp(4rem, 8vw, 6rem);
+	padding-top: 1.5rem;
+	border-top: 1px solid var(--line);
+}
+
 /* ---------- Day page (/day/01) ---------- */
 .day-hero {
 	padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem);

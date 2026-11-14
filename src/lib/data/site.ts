@@ -1,40 +1,102 @@
 // 公開サイトのオリジン。当日ページのQRコードでUTMを付けるかどうかの判定に使う
 export const siteOrigin = 'https://ailab.akitaka-note.jp';
 
-export const registrationUrl =
-	'https://docs.google.com/forms/d/e/1FAIpQLSfka7pzpEoN9E6muGtRFjmdB6xK48uEpczj6hvJoLDozqRH4A/viewform';
-
 // Google Analytics 4 の測定ID（例: 'G-XXXXXXXXXX'）。空欄の間は読み込まない
 export const gaMeasurementId = 'G-JGJQ2QH7JC';
 
-export const event = {
-	title: 'AIって、どんなことができるの？',
-	date: '2026年11月8日（日）',
-	isoDate: '2026-11-08',
-	year: '2026',
-	monthDay: '11.08',
-	weekday: 'SUN',
-	startTime: '14:00',
-	endTime: '16:30',
-	cleanup: '17:00完全撤収予定',
-	venue: '安芸高田市民文化センター 研修室402',
-	address: '広島県安芸高田市吉田町吉田761番地',
-	mapUrl:
-		'https://www.google.com/maps/search/?api=1&query=%E5%AE%89%E8%8A%B8%E9%AB%98%E7%94%B0%E5%B8%82%E6%B0%91%E6%96%87%E5%8C%96%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC',
-	capacity: '10名程度（先着順）',
-	fee: '一般 1,000円程度 ／ 学生 無料〜500円程度',
-	feeNote: '会場費・備品・飲み物等の実費相当です。',
-	audience: '年齢・職業・AI経験 不問',
-	bring: 'ノートパソコン（推奨）',
-	bringNote: 'スマートフォンでも参加できますが、パソコンがあるとより楽しめます。',
-	deadline: '2026年11月7日（土）',
-	program: [
-		'ChatGPTなどの生成AIを実際に使ってみる',
-		'文章づくり・画像づくりなど、身近な例を体験',
-		'仕事・地域活動・暮らしでの使い方を考えてみる',
-		'参加者同士でのアイデア共有・交流'
-	]
+// 日程・会場・申込方法まで決まった回の情報
+export type EventDetails = {
+	number: string;
+	format: string;
+	title: string;
+	date: string;
+	isoDate: string;
+	year: string;
+	monthDay: string;
+	weekday: string;
+	startTime: string;
+	endTime: string;
+	cleanup: string;
+	venue: string;
+	address: string;
+	mapUrl: string;
+	capacity: string;
+	fee: string;
+	feeNote: string;
+	audience: string;
+	bring: string;
+	bringNote: string;
+	deadline: string;
+	program: string[];
+	registrationUrl: string;
+	// src/content/day/<number>.md の当日ページがあるとき true
+	hasDayPage?: boolean;
 };
+
+// 次回の状態。
+// planning: 日程未定（Discordでのお知らせへ誘導）
+// open:     申込受付中（申込フォームへ誘導）
+// closed:   申込締切後〜開催まで（Discordへ誘導し、日程だけ表示）
+// 開催が終わったら pastEvents の先頭に移し、event を次の回の planning にする
+export type LabEvent =
+	| { status: 'planning'; number: string; note: string; themes: string[] }
+	| ({ status: 'open' | 'closed' } & EventDetails);
+
+// 宣言時の値で型が絞り込まれないよう、関数を通して LabEvent 型のまま扱う
+const defineEvent = (e: LabEvent): LabEvent => e;
+
+export const event = defineEvent({
+	status: 'planning',
+	number: '02',
+	note: '日程と会場は、決まり次第このサイトとDiscordでお知らせします。',
+	// 第1回の振り返りで出た「次にやってみたいこと」など。空の間は表示しない
+	themes: [
+		'地域イベントの広報を、紙とWebの両方で',
+		'ファッション以外のジャンルのデザイン',
+		'組み合わせて良いものを作るコツの共有',
+		'「AIでこんなこともできる」のアイデア集め'
+	]
+});
+
+// これまでに開催した回（新しい順）
+export const pastEvents: EventDetails[] = [
+	{
+		number: '01',
+		format: '体験ワークショップ',
+		title: 'AIって、どんなことができるの？',
+		date: '2026年11月8日（日）',
+		isoDate: '2026-11-08',
+		year: '2026',
+		monthDay: '11.08',
+		weekday: 'SUN',
+		startTime: '14:00',
+		endTime: '16:30',
+		cleanup: '17:00完全撤収予定',
+		venue: '安芸高田市民文化センター 研修室402',
+		address: '広島県安芸高田市吉田町吉田761番地',
+		mapUrl:
+			'https://www.google.com/maps/search/?api=1&query=%E5%AE%89%E8%8A%B8%E9%AB%98%E7%94%B0%E5%B8%82%E6%B0%91%E6%96%87%E5%8C%96%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC',
+		capacity: '10名程度（先着順）',
+		fee: '一般 1,000円程度 ／ 学生 無料〜500円程度',
+		feeNote: '会場費・備品・飲み物等の実費相当です。',
+		audience: '年齢・職業・AI経験 不問',
+		bring: 'ノートパソコン（推奨）',
+		bringNote: 'スマートフォンでも参加できますが、パソコンがあるとより楽しめます。',
+		deadline: '2026年11月7日（土）',
+		program: [
+			'ChatGPTなどの生成AIを実際に使ってみる',
+			'文章づくり・画像づくりなど、身近な例を体験',
+			'仕事・地域活動・暮らしでの使い方を考えてみる',
+			'参加者同士でのアイデア共有・交流'
+		],
+		registrationUrl:
+			'https://docs.google.com/forms/d/e/1FAIpQLSfka7pzpEoN9E6muGtRFjmdB6xK48uEpczj6hvJoLDozqRH4A/viewform',
+		hasDayPage: true
+	}
+];
+
+// 「第2回」のような回の呼び方
+export const eventOrdinal = (number: string) => `第${Number(number)}回`;
 
 export const ideas = [
 	{
@@ -138,6 +200,32 @@ export const discord = {
 	]
 };
 
+// ヘッダー・ヒーロー・ページ末尾などの主ボタン。
+// 受付中は申込フォーム、それ以外は次回のお知らせを受け取れるDiscordへ
+export const cta =
+	event.status === 'open'
+		? {
+				href: event.registrationUrl,
+				label: `${eventOrdinal(event.number)}に申し込む`,
+				shortPrefix: `${event.isoDate.slice(5).split('-').map(Number).join('/')}に`,
+				short: '参加する',
+				isRegistration: true
+			}
+		: {
+				href: discord.url,
+				label: 'Discordで次回のお知らせを受け取る',
+				shortPrefix: 'Discordで',
+				short: 'お知らせを受け取る',
+				isRegistration: false
+			};
+
+// ヒーローのバッジやナビに出す、次回の状態の短い表示
+export const eventBadge = {
+	number: `#${event.number}`,
+	when: event.status === 'planning' ? '準備中' : `${event.monthDay} ${event.weekday}`,
+	status: { planning: '日程調整中', open: '参加受付中', closed: '受付終了' }[event.status]
+};
+
 export const organizerLinks = [
 	{ label: 'X', url: 'https://x.com/kobatch_tk' },
 	{ label: 'LinkedIn', url: 'https://www.linkedin.com/in/tariki-code/' },
@@ -214,14 +302,9 @@ export const decks: { id: string; label: string; title: string; ratio: string; s
 		{
 			id: 'flyer',
 			label: 'チラシ',
-			title: '第1回 体験ワークショップのチラシ（表・裏）',
+			title: '第1回 体験ワークショップのチラシ',
 			ratio: '1054 / 1492',
 			slides: [
-				{
-					src: '/images/flyer/flyer-front.webp',
-					thumb: '/images/flyer/flyer-front-thumb.webp',
-					alt: 'チラシ表面：あきたかたAI Lab #01 体験ワークショップの案内。こんな方におすすめ、今回の内容、大切にしていること、日時・場所・定員・参加費・対象・持ち物・申し込み方法'
-				},
 				{
 					src: '/images/flyer/flyer-back.webp',
 					thumb: '/images/flyer/flyer-back-thumb.webp',

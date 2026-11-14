@@ -1,10 +1,10 @@
 # Markdown記事の書き方
 
-Lab LogとKnowledgeは、記事が必要になった段階でMarkdownを追加し、Gitで履歴管理します。現在は一覧や記事ページをまだ公開していません。
+Lab LogとKnowledgeは、記事が必要になった段階でMarkdownを追加し、Gitで履歴管理します。Lab Logは記事ページを公開しています（Knowledgeは未公開）。
 
 ## 置き場所
 
-- `src/content/lab-log/` — 実験、成果、失敗、学びの記録
+- `src/content/lab-log/` — 実験、成果、失敗、学びの記録。`<slug>.md` を追加すると `/log/<slug>` のページがビルド時に静的生成され、トップの「活動の記録」に新しい順で3件まで並びます（`src/lib/content/lab-log.ts`）
 - `src/content/knowledge/` — AIの使い方、プロンプト、ツール、地域で見つけた知見
 
 ## Lab Logの基本フォーマット
@@ -15,6 +15,8 @@ title: '地域のお知らせをAIと作ってみた'
 date: '2026-11-08'
 summary: '試したことと分かったことを短く紹介します。'
 tags: ['広報', '文章']
+# 開催回の記録なら回番号。トップの「これまでのLab」から「開催の記録」としてリンクされる（省略可）
+event: '01'
 ---
 
 ## 何を試した？

@@ -9,13 +9,17 @@
 	import {
 		decks,
 		discord,
+		cta,
 		event,
+		eventBadge,
+		eventOrdinal,
 		ideas,
 		organizerHistory,
-		registrationUrl,
+		pastEvents,
 		relatedLinks,
 		values
 	} from '#lib/data/site.js';
+	import { findEventLog, labLogs } from '#lib/content/lab-log.js';
 	import { initReveal } from '#lib/reveal.js';
 	import { socialIcons } from '#lib/data/social-icons.js';
 
@@ -32,7 +36,10 @@
 	<title>あきたかたAI Lab | AIを、地域の誰もが使える力にする。</title>
 	<meta
 		name="description"
-		content="安芸高田でAIを知る・触る・つくる。地域の人たちと一緒に試して育てる、個人主催の非営利コミュニティです。第1回は2026年11月8日。"
+		content="安芸高田でAIを知る・触る・つくる。地域の人たちと一緒に試して育てる、個人主催の非営利コミュニティです。{event.status ===
+		'planning'
+			? `${eventOrdinal(event.number)}は準備中です。`
+			: `${eventOrdinal(event.number)}は${event.date}。`}"
 	/>
 	<meta property="og:title" content="あきたかたAI Lab" />
 	<meta
@@ -72,14 +79,21 @@
 						詳しくなくても大丈夫。まずは小さく、一緒に試してみましょう。
 					</p>
 					<div class="hero-actions" data-reveal="360">
-						<a
-							class="button button-dark"
-							href={registrationUrl}
-							target="_blank"
-							rel="external noopener noreferrer"
-						>
-							第1回に申し込む <span aria-hidden="true">↗</span>
-						</a>
+						<!-- 受付中は申込フォームへ。それ以外はDiscordへの入口が多くなりすぎないよう、次回の案内へ移動する -->
+						{#if cta.isRegistration}
+							<a
+								class="button button-dark"
+								href={cta.href}
+								target="_blank"
+								rel="external noopener noreferrer"
+							>
+								{cta.label} <span aria-hidden="true">↗</span>
+							</a>
+						{:else}
+							<a class="button button-dark" href="#next-event">
+								次のLabについて <span aria-hidden="true">↓</span>
+							</a>
+						{/if}
 						<a class="line-link" href="#about">もっと詳しく <span aria-hidden="true">↓</span></a>
 					</div>
 				</div>
@@ -97,9 +111,9 @@
 				/>
 				<span class="visual-label" aria-hidden="true">EST. 2026</span>
 				<a class="hero-badge" href="#next-event">
-					<strong>#01</strong>
-					<span>11.08 SUN</span>
-					<small>参加受付中</small>
+					<strong>{eventBadge.number}</strong>
+					<span>{eventBadge.when}</span>
+					<small>{eventBadge.status}</small>
 				</a>
 				<figcaption>安芸高田の山あいから、AIをみんなで試す。</figcaption>
 			</figure>
@@ -165,84 +179,149 @@
 	<section id="next-event" class="section section-dark" aria-labelledby="event-title">
 		<div class="container">
 			<div class="sec-head" data-reveal>
-				<p class="sec-label">FIRST LAB<span>第1回のご案内</span></p>
-			</div>
-			<div class="event-grid">
-				<div class="event-main">
-					<p class="event-tag" data-reveal><span>#01</span>体験ワークショップ</p>
-					<h2 id="event-title" class="display" data-reveal="80">
-						AIって、<wbr />どんなことが<wbr />できるの？
-					</h2>
-					<div class="event-date" data-reveal="160">
-						<time datetime={event.isoDate}>
-							<span class="date-year">{event.year}</span>
-							<strong>{event.monthDay}</strong>
-							<span class="date-week">{event.weekday}</span>
-						</time>
-						<p>{event.startTime}<span>—</span>{event.endTime}<small>{event.cleanup}</small></p>
-					</div>
-					<div class="event-program" data-reveal="220">
-						<h3>今回の内容（予定）</h3>
-						<ul>
-							{#each event.program as item (item)}
-								<li>{item}</li>
-							{/each}
-						</ul>
-					</div>
-					<a
-						class="line-link line-link-light event-day-link"
-						href={resolve('/day/[no]', { no: '01' })}
-						data-reveal="260"
+				<p class="sec-label">
+					NEXT LAB<span
+						>{event.status === 'planning'
+							? '次回のLab'
+							: `${eventOrdinal(event.number)}のご案内`}</span
 					>
-						当日のタイムテーブルを見る <span aria-hidden="true">→</span>
-					</a>
-				</div>
+				</p>
+			</div>
+			{#if event.status === 'planning'}
+				<div class="event-grid">
+					<div class="event-main">
+						<p class="event-tag" data-reveal><span>#{event.number}</span>準備中</p>
+						<h2 id="event-title" class="display" data-reveal="80">
+							次のLabを、<wbr />準備しています。
+						</h2>
+						<p class="event-note" data-reveal="160">{event.note}</p>
+						{#if event.themes.length > 0}
+							<div class="event-program" data-reveal="220">
+								<h3>次にやってみたいこと（第1回の振り返りから）</h3>
+								<ul>
+									{#each event.themes as item (item)}
+										<li>{item}</li>
+									{/each}
+								</ul>
+							</div>
+						{/if}
+						<!-- 申請制の説明があるDiscordの紹介へ移動してから申請してもらう -->
+						<a class="line-link line-link-light event-cta" href="#community" data-reveal="260">
+							開催のお知らせはDiscordで <span aria-hidden="true">↓</span>
+						</a>
+					</div>
 
-				<div class="event-side" data-reveal="140">
-					<dl class="event-details">
-						<div>
-							<dt>会場</dt>
-							<dd>
-								{event.venue}
-								<small
-									>{event.address}
-									<a href={event.mapUrl} target="_blank" rel="external noopener noreferrer"
-										>地図 ↗</a
-									></small
-								>
-							</dd>
-						</div>
-						<div>
-							<dt>参加費</dt>
-							<dd>{event.fee}<small>{event.feeNote}</small></dd>
-						</div>
-						<div>
-							<dt>定員</dt>
-							<dd>{event.capacity}</dd>
-						</div>
-						<div>
-							<dt>対象</dt>
-							<dd>{event.audience}<small>どなたでも参加できます。</small></dd>
-						</div>
-						<div>
-							<dt>持ち物</dt>
-							<dd>{event.bring}<small>{event.bringNote}</small></dd>
-						</div>
-						<div>
-							<dt>申込締切</dt>
-							<dd>{event.deadline}</dd>
-						</div>
-					</dl>
-					<a
-						class="button button-yellow button-block"
-						href={registrationUrl}
-						target="_blank"
-						rel="external noopener noreferrer"
-					>
-						参加を申し込む（Googleフォーム） <span aria-hidden="true">↗</span>
-					</a>
+					<div class="event-side" data-reveal="140">
+						<h3 class="event-side-title">これまでのLab</h3>
+						<dl class="event-details">
+							{#each pastEvents as past (past.number)}
+								<div>
+									<dt>#{past.number}</dt>
+									<dd>
+										{past.title}
+										<small>{past.date} ／ {past.venue}</small>
+										{#if past.hasDayPage}
+											<small class="event-past-link"
+												><a href={resolve('/day/[no]', { no: past.number })}
+													>当日のタイムテーブル →</a
+												></small
+											>
+										{/if}
+										{#if findEventLog(past.number)}
+											{@const log = findEventLog(past.number)!}
+											<small class="event-past-link"
+												><a href={resolve('/log/[slug]', { slug: log.slug })}>開催の記録 →</a
+												></small
+											>
+										{/if}
+									</dd>
+								</div>
+							{/each}
+						</dl>
+					</div>
 				</div>
-			</div>
+			{:else}
+				<div class="event-grid">
+					<div class="event-main">
+						<p class="event-tag" data-reveal><span>#{event.number}</span>{event.format}</p>
+						<h2 id="event-title" class="display" data-reveal="80">{event.title}</h2>
+						<div class="event-date" data-reveal="160">
+							<time datetime={event.isoDate}>
+								<span class="date-year">{event.year}</span>
+								<strong>{event.monthDay}</strong>
+								<span class="date-week">{event.weekday}</span>
+							</time>
+							<p>{event.startTime}<span>—</span>{event.endTime}<small>{event.cleanup}</small></p>
+						</div>
+						<div class="event-program" data-reveal="220">
+							<h3>今回の内容（予定）</h3>
+							<ul>
+								{#each event.program as item (item)}
+									<li>{item}</li>
+								{/each}
+							</ul>
+						</div>
+						{#if event.hasDayPage}
+							<a
+								class="line-link line-link-light event-day-link"
+								href={resolve('/day/[no]', { no: event.number })}
+								data-reveal="260"
+							>
+								当日のタイムテーブルを見る <span aria-hidden="true">→</span>
+							</a>
+						{/if}
+					</div>
+
+					<div class="event-side" data-reveal="140">
+						<dl class="event-details">
+							<div>
+								<dt>会場</dt>
+								<dd>
+									{event.venue}
+									<small
+										>{event.address}
+										<a href={event.mapUrl} target="_blank" rel="external noopener noreferrer"
+											>地図 ↗</a
+										></small
+									>
+								</dd>
+							</div>
+							<div>
+								<dt>参加費</dt>
+								<dd>{event.fee}<small>{event.feeNote}</small></dd>
+							</div>
+							<div>
+								<dt>定員</dt>
+								<dd>{event.capacity}</dd>
+							</div>
+							<div>
+								<dt>対象</dt>
+								<dd>{event.audience}<small>どなたでも参加できます。</small></dd>
+							</div>
+							<div>
+								<dt>持ち物</dt>
+								<dd>{event.bring}<small>{event.bringNote}</small></dd>
+							</div>
+							<div>
+								<dt>申込締切</dt>
+								<dd>{event.deadline}</dd>
+							</div>
+						</dl>
+						{#if event.status === 'open'}
+							<a
+								class="button button-yellow button-block"
+								href={event.registrationUrl}
+								target="_blank"
+								rel="external noopener noreferrer"
+							>
+								参加を申し込む（Googleフォーム） <span aria-hidden="true">↗</span>
+							</a>
+						{:else}
+							<p class="event-closed">申込の受付は終了しました。</p>
+						{/if}
+					</div>
+				</div>
+			{/if}
 		</div>
 	</section>
 
@@ -257,7 +336,7 @@
 					こんなことを、<wbr />一緒に<wbr />やってみませんか？
 				</h2>
 				<p class="sec-aside" data-reveal="100">
-					ここにあるのはアイデアの一例です。第1回ですべてを行うわけではありません。参加した人の「これやってみたい」から、次のLabのテーマが生まれます。
+					ここにあるのはアイデアの一例です。1回のLabですべてを行うわけではありません。参加した人の「これやってみたい」から、次のLabのテーマが生まれます。
 				</p>
 			</div>
 			<div class="ideas-grid">
@@ -486,7 +565,20 @@
 					<p>
 						やったこと、使ったAI、分かったこと、次に試したいこと。成功も失敗も、地域の実験ノートとして残していきます。
 					</p>
-					<span class="archive-status">第1回の開催後から公開します</span>
+					{#if labLogs.length > 0}
+						<ul class="archive-list">
+							{#each labLogs.slice(0, 3) as log (log.slug)}
+								<li>
+									<a href={resolve('/log/[slug]', { slug: log.slug })}>
+										<time datetime={log.date}>{log.dateLabel}</time>
+										<span>{log.title}</span>
+									</a>
+								</li>
+							{/each}
+						</ul>
+					{:else}
+						<span class="archive-status">第1回の開催後から公開します</span>
+					{/if}
 				</article>
 				<article id="knowledge" class="archive" data-reveal="100">
 					<p class="sec-label">KNOWLEDGE<span>ナレッジ</span></p>
@@ -508,18 +600,25 @@
 				あなたなら、AIで<br /><span class="marker">何をやってみたい</span>ですか？
 			</h2>
 			<p class="join-lead" data-reveal="160">
-				「ちょっと気になる」くらいからで大丈夫。<br />第1回のLabで、一緒に話してみませんか。
+				「ちょっと気になる」くらいからで大丈夫。<br />{event.status === 'planning'
+					? '次のLab'
+					: `${eventOrdinal(event.number)}のLab`}で、一緒に話してみませんか。
 			</p>
 			<div class="join-actions" data-reveal="220">
 				<a
 					class="button button-dark button-large"
-					href={registrationUrl}
+					href={cta.href}
 					target="_blank"
 					rel="external noopener noreferrer"
 				>
-					第1回に参加する <span aria-hidden="true">↗</span>
+					{cta.isRegistration ? `${eventOrdinal(event.number)}に参加する` : cta.label}
+					<span aria-hidden="true">↗</span>
 				</a>
-				<p>{event.date} {event.startTime}–{event.endTime} ／ {event.venue}</p>
+				<p>
+					{event.status === 'planning'
+						? event.note
+						: `${event.date} ${event.startTime}–${event.endTime} ／ ${event.venue}`}
+				</p>
 			</div>
 		</div>
 		<img
