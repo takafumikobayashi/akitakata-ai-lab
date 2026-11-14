@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { registrationUrl } from '#lib/data/site.js';
+	import { cta, event, eventOrdinal } from '#lib/data/site.js';
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import BrandMark from '#lib/components/BrandMark.svelte';
@@ -9,7 +9,10 @@
 
 	const sections = [
 		{ id: 'about', label: 'Labについて' },
-		{ id: 'next-event', label: '第1回' },
+		{
+			id: 'next-event',
+			label: event.status === 'planning' ? '次回のLab' : eventOrdinal(event.number)
+		},
 		{ id: 'try-it', label: 'やってみたいこと' },
 		{ id: 'values', label: '大切にしたいこと' },
 		{ id: 'profile', label: '主催者' },
@@ -45,11 +48,12 @@
 		<div class="header-actions">
 			<a
 				class="button button-dark button-small"
-				href={registrationUrl}
+				href={cta.href}
 				target="_blank"
 				rel="external noopener noreferrer"
 			>
-				<span><span class="hide-xs">11/8に</span>参加する</span> <span aria-hidden="true">↗</span>
+				<span><span class="hide-xs">{cta.shortPrefix}</span>{cta.short}</span>
+				<span aria-hidden="true">↗</span>
 			</a>
 			<button
 				class="menu-toggle"

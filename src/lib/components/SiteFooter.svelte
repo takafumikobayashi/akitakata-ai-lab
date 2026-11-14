@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
-	import { registrationUrl } from '#lib/data/site.js';
+	import { cta } from '#lib/data/site.js';
 	import BrandMark from '#lib/components/BrandMark.svelte';
 	import SocialLinks from '#lib/components/SocialLinks.svelte';
 
@@ -20,12 +20,15 @@
 		</a>
 		<p>地域でAIを「知る・触る・つくる」コミュニティ</p>
 		<SocialLinks class="footer-links" community />
-		<a
-			class="line-link line-link-light"
-			href={registrationUrl}
-			target="_blank"
-			rel="external noopener noreferrer">参加フォーム <span aria-hidden="true">↗</span></a
-		>
+		<!-- 申込受付中だけ参加フォームへのリンクを出す（それ以外はDiscordがSNS欄にある） -->
+		{#if cta.isRegistration}
+			<a
+				class="line-link line-link-light"
+				href={cta.href}
+				target="_blank"
+				rel="external noopener noreferrer">参加フォーム <span aria-hidden="true">↗</span></a
+			>
+		{/if}
 		<div class="footer-bottom">
 			<small>個人主催・非営利の地域コミュニティ ｜ 安芸高田市の公式事業ではありません</small>
 			<small>Copyright © tariki-code All rights reserved.</small>
