@@ -257,6 +257,22 @@ export const relatedLinks = [
 			'OpenAI Signals の公開データをもとに、日本の ChatGPT の仕事利用を読み解く非公式ダッシュボード。',
 		url: 'https://signals.tariki-code.tokyo/',
 		image: '/images/links/signals-japan-insight.webp'
+	},
+	{
+		label: '主催者のプロジェクト',
+		title: 'CHAIN BREAKER',
+		description:
+			'ひとつのバウンドが、千の連鎖に。ブロックが自動で崩れていく様子を眺めるシミュレーション。',
+		url: 'https://chain-breaker.tariki-code.tokyo/',
+		image: '/images/links/chain-breaker.webp'
+	},
+	{
+		label: '主催者のプロジェクト',
+		title: 'AI Atlas',
+		description:
+			'世界の対話型AIサービスを、できることや利用条件から探せる図鑑。機能・提供地域・料金を、公式情報の根拠付きで整理。',
+		url: 'https://ai-atlas.tariki-code.tokyo/',
+		image: '/images/links/ai-atlas.webp'
 	}
 ];
 

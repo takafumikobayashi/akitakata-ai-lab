@@ -6,6 +6,12 @@
 	import SocialLinks from '#lib/components/SocialLinks.svelte';
 
 	const isHome = $derived(page.url.pathname === resolve('/'));
+
+	// 開始年から今年までを表示する（例：© 2026 / © 2026–2027）。
+	// プリレンダーするページ（/day, /log）ではビルド時の年になる
+	const startYear = 2026;
+	const currentYear = new Date().getFullYear();
+	const copyright = `© ${startYear}${currentYear > startYear ? `–${currentYear}` : ''} tariki-code`;
 </script>
 
 <footer class="site-footer">
@@ -31,7 +37,7 @@
 		{/if}
 		<div class="footer-bottom">
 			<small>個人主催・非営利の地域コミュニティ ｜ 安芸高田市の公式事業ではありません</small>
-			<small>Copyright © tariki-code All rights reserved.</small>
+			<small>{copyright}</small>
 		</div>
 	</div>
 </footer>
