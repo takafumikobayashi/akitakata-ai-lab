@@ -33,13 +33,44 @@ export type EventDetails = {
 	hasDayPage?: boolean;
 };
 
+// 会場（回をまたいで使い回す）
+const venues = {
+	bunkaCenter402: {
+		venue: '安芸高田市民文化センター 研修室402',
+		address: '広島県安芸高田市吉田町吉田761番地',
+		mapUrl:
+			'https://www.google.com/maps/search/?api=1&query=%E5%AE%89%E8%8A%B8%E9%AB%98%E7%94%B0%E5%B8%82%E6%B0%91%E6%96%87%E5%8C%96%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC'
+	}
+};
+
+// 準備中の回で、日程と会場が先に決まったときの情報
+export type EventSchedule = Pick<
+	EventDetails,
+	| 'date'
+	| 'isoDate'
+	| 'year'
+	| 'monthDay'
+	| 'weekday'
+	| 'startTime'
+	| 'endTime'
+	| 'venue'
+	| 'address'
+	| 'mapUrl'
+>;
+
 // 次回の状態。
-// planning: 日程未定（Discordでのお知らせへ誘導）
+// planning: 内容・申込方法が未定（Discordでのお知らせへ誘導）。schedule があれば日程と会場も出す
 // open:     申込受付中（申込フォームへ誘導）
 // closed:   申込締切後〜開催まで（Discordへ誘導し、日程だけ表示）
 // 開催が終わったら pastEvents の先頭に移し、event を次の回の planning にする
 export type LabEvent =
-	| { status: 'planning'; number: string; note: string; themes: string[] }
+	| {
+			status: 'planning';
+			number: string;
+			note: string;
+			themes: string[];
+			schedule?: EventSchedule;
+	  }
 	| ({ status: 'open' | 'closed' } & EventDetails);
 
 // 宣言時の値で型が絞り込まれないよう、関数を通して LabEvent 型のまま扱う
@@ -48,7 +79,17 @@ const defineEvent = (e: LabEvent): LabEvent => e;
 export const event = defineEvent({
 	status: 'planning',
 	number: '02',
-	note: '日程と会場は、決まり次第このサイトとDiscordでお知らせします。',
+	note: '内容と申込方法は、決まり次第このサイトとDiscordでお知らせします。',
+	schedule: {
+		date: '2026年12月20日（日）',
+		isoDate: '2026-12-20',
+		year: '2026',
+		monthDay: '12.20',
+		weekday: 'SUN',
+		startTime: '14:00',
+		endTime: '17:00',
+		...venues.bunkaCenter402
+	},
 	// 第1回の振り返りで出た「次にやってみたいこと」など。空の間は表示しない
 	themes: [
 		'地域イベントの広報を、紙とWebの両方で',
@@ -72,10 +113,7 @@ export const pastEvents: EventDetails[] = [
 		startTime: '14:00',
 		endTime: '16:30',
 		cleanup: '17:00完全撤収予定',
-		venue: '安芸高田市民文化センター 研修室402',
-		address: '広島県安芸高田市吉田町吉田761番地',
-		mapUrl:
-			'https://www.google.com/maps/search/?api=1&query=%E5%AE%89%E8%8A%B8%E9%AB%98%E7%94%B0%E5%B8%82%E6%B0%91%E6%96%87%E5%8C%96%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC',
+		...venues.bunkaCenter402,
 		capacity: '10名程度（先着順）',
 		fee: '一般 1,000円程度 ／ 学生 無料〜500円程度',
 		feeNote: '会場費・備品・飲み物等の実費相当です。',
@@ -220,10 +258,16 @@ export const cta =
 			};
 
 // ヒーローのバッジやナビに出す、次回の状態の短い表示
+const badgeDate = event.status === 'planning' ? event.schedule : event;
 export const eventBadge = {
 	number: `#${event.number}`,
-	when: event.status === 'planning' ? '準備中' : `${event.monthDay} ${event.weekday}`,
-	status: { planning: '日程調整中', open: '参加受付中', closed: '受付終了' }[event.status]
+	when: badgeDate ? `${badgeDate.monthDay} ${badgeDate.weekday}` : '準備中',
+	status:
+		event.status === 'planning'
+			? event.schedule
+				? '申込準備中'
+				: '日程調整中'
+			: { open: '参加受付中', closed: '受付終了' }[event.status]
 };
 
 export const organizerLinks = [
