@@ -36,10 +36,12 @@
 	<title>あきたかたAI Lab | AIを、地域の誰もが使える力にする。</title>
 	<meta
 		name="description"
-		content="安芸高田でAIを知る・触る・つくる。地域の人たちと一緒に試して育てる、個人主催の非営利コミュニティです。{event.status ===
+		content="安芸高田でAIを知る・触る・つくる。地域の人たちと一緒に試して育てる、個人主催の非営利コミュニティです。{event.status !==
 		'planning'
-			? `${eventOrdinal(event.number)}は準備中です。`
-			: `${eventOrdinal(event.number)}は${event.date}。`}"
+			? `${eventOrdinal(event.number)}は${event.date}。`
+			: event.schedule
+				? `${eventOrdinal(event.number)}は${event.schedule.date}の予定です。`
+				: `${eventOrdinal(event.number)}は準備中です。`}"
 	/>
 	<meta property="og:title" content="あきたかたAI Lab" />
 	<meta
@@ -190,10 +192,22 @@
 			{#if event.status === 'planning'}
 				<div class="event-grid">
 					<div class="event-main">
-						<p class="event-tag" data-reveal><span>#{event.number}</span>準備中</p>
+						<p class="event-tag" data-reveal>
+							<span>#{event.number}</span>{event.schedule ? '申込準備中' : '準備中'}
+						</p>
 						<h2 id="event-title" class="display" data-reveal="80">
 							次のLabを、<wbr />準備しています。
 						</h2>
+						{#if event.schedule}
+							<div class="event-date" data-reveal="120">
+								<time datetime={event.schedule.isoDate}>
+									<span class="date-year">{event.schedule.year}</span>
+									<strong>{event.schedule.monthDay}</strong>
+									<span class="date-week">{event.schedule.weekday}</span>
+								</time>
+								<p>{event.schedule.startTime}<span>—</span>{event.schedule.endTime}</p>
+							</div>
+						{/if}
 						<p class="event-note" data-reveal="160">{event.note}</p>
 						{#if event.themes.length > 0}
 							<div class="event-program" data-reveal="220">
@@ -212,6 +226,32 @@
 					</div>
 
 					<div class="event-side" data-reveal="140">
+						{#if event.schedule}
+							<h3 class="event-side-title">{eventOrdinal(event.number)}の予定</h3>
+							<dl class="event-details">
+								<div>
+									<dt>日時</dt>
+									<dd>
+										{event.schedule.date}
+										<small>{event.schedule.startTime}–{event.schedule.endTime}</small>
+									</dd>
+								</div>
+								<div>
+									<dt>会場</dt>
+									<dd>
+										{event.schedule.venue}
+										<small
+											>{event.schedule.address}
+											<a
+												href={event.schedule.mapUrl}
+												target="_blank"
+												rel="external noopener noreferrer">地図 ↗</a
+											></small
+										>
+									</dd>
+								</div>
+							</dl>
+						{/if}
 						<h3 class="event-side-title">これまでのLab</h3>
 						<dl class="event-details">
 							{#each pastEvents as past (past.number)}
@@ -615,9 +655,11 @@
 					<span aria-hidden="true">↗</span>
 				</a>
 				<p>
-					{event.status === 'planning'
-						? event.note
-						: `${event.date} ${event.startTime}–${event.endTime} ／ ${event.venue}`}
+					{event.status !== 'planning'
+						? `${event.date} ${event.startTime}–${event.endTime} ／ ${event.venue}`
+						: event.schedule
+							? `${event.schedule.date} ${event.schedule.startTime}–${event.schedule.endTime} ／ ${event.schedule.venue}`
+							: event.note}
 				</p>
 			</div>
 		</div>
